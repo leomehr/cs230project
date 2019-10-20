@@ -1,0 +1,58 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{url, amsmath}
+\usepackage{hyperref}
+\usepackage[margin=1in]{geometry}
+
+
+\title{Robust Face Identification \\ Category: Computer Vision}
+\author{Leo Mehr, Luca Schroeder \\ \{leomehr, lucschr\}@stanford.edu}
+\date{October 10 2019}
+
+\begin{document}
+
+\maketitle
+
+\section{Motivation}
+% What is the problem that you will be investigating? Why is it interesting?
+
+Recent advances in facial recognition technology have revolutionized a plethora of applications, ranging from device authentication (e.g. Apple's Face ID) and e-commerce (e.g. Mastercard's `selfie' payment technology) to public safety (e.g. police identifying criminals at large public events). And in the near future, facial recognition could be deployed in even higher-stake situations, such as targeting on military rifles \cite{rifle} and management of pain medication for patients \cite{painmed}.
+
+Thus, the risks of attacks on face identification technology and the consequences of misidentification grow ever larger---and so it is crucial to understand how brittle face identification currently is and how robust it can be made. These questions are particularly relevant in the wake of recent research on adversarial examples that has shown the vulnerability of DNN approaches to even small perturbations in natural images.
+
+% As face identification technology becomes ever more integrated into daily life and life-or-death scenarios, the risks of attacks on face identification technology and the consequences of misidentification grow ever larger---and so it is crucial to understand how brittle face identification currently is and how robust it can be made. These questions are particularly relevant in the wake of recent research on adversarial examples that has shown the vulnerability of DNN approaches to even small perturbations in natural images.
+
+For our project, we propose to:
+\begin{enumerate}
+    \item build a DNN for multi-class classification of individuals by facial recognition,
+    \item assess the robustness of the network through a range of state-of-the-art white- and black-box attacks,
+    \item and, if the attacks are successful, develop defenses against attacks to make the network more robust.
+\end{enumerate}
+
+% What are the challenges of this project?
+We anticipate the primary challenges of this project to be: (1) building and tuning a high-quality facial recognition neural network and (2) implementing a variety of attacks/defenses and rigorously assessing their efficacies.
+
+\section{Data and Methods}
+We plan to leverage the recently released IMDb-Face dataset \cite{wang2018devil}, which contains 1.7 million faces and 59k identities, derived from 2.0 million raw \href{https://www.imdb.com/}{IMDb} images and designed to minimize the label noise common in other face recognition datasets. Each face image is labeled with the identity of the celebrity appearing in it.
+
+% What method or algorithm are you proposing? If there are existing implementations, will you use them and how? How do you plan to improve or modify such implementations?
+Our DNN will take a photo with a bounding box for the query face as input, and output an $N+1$ dimensional vector of probabilities corresponding to each of the $N$ celebrities and one for ``unknown face''. To start, we will implement the well-known VGG16 architecture \cite{simonyan2015very}, which has also performed well in the Face Recognition domain \cite{survey}.
+
+
+For attacks we hope to experiment with a number of recent approaches, such as: one-pixel attacks with differential evolution \cite{1pixel}, fast gradient sign method \cite{fgsm}, rotation and image filter application, the $L_1$/$L_2$/$L_\infty$ distance metric attacks introduced by Carlini and Wagner \cite{carliniw}, etc. Similarly, there are a number of potential defenses to consider, ranging from training on adversarial examples and defensive distillation \cite{defensivedistillation}, to detecting and rejecting adversarial examples as done by SafetyNet \cite{safetynet} or attempting to un-perturb or denoise them in the style of DefenseGAN \cite{defensegan}. We will start with 1 attack and 1 defense (if applicable) and expand our scope as time permits.
+
+% What reading will you examine to provide context and background? If relevant, what papers do you refer to?
+
+\section{Evaluation and Success}
+% How will you evaluate your results? Qualitatively, what kind of results do you expect (e.g. plots or figures)? Quantitatively, what kind of analysis will you use to evaluate and/or compare your results (e.g. what performance metrics or statistical tests)?
+Our primary metric will be classifier accuracy. For our base DNN, we will want this to be as high as possible. For our attacks to be successful, we want to maximize the difference:
+$$\Delta=\text{Accuracy(normal test set)}-\text{Accuracy(adversarial test set)}$$
+For our defenses to be successful, we will then want to shrink this $\Delta$ gap as much as possible to build a robust face recognition system.
+
+It will be interesting to explore the interaction between different attacks and defenses and different classes of attacks (white-/black-box) and defenses. Thus one table that would be interesting to produce is a matrix that gives classification accuracy for each defense under each attack. It will also be interesting to consider the runtime characteristics of each attack and whether adversarial examples can be constructed in real-time e.g. to attack face recognition applications in live video.
+
+\bibliographystyle{unsrt}
+\bibliography{references}
+
+\end{document}
