@@ -1,3 +1,5 @@
-# CS230 Project: Attacking and Defending Face Identification Systems
-See this [ipython notebook](face_id_attacks.ipynb) for milestone progress.
+# Attacking and Defending Face Identification Systems
+
+- [ipython notebook](face_id_attacks.ipynb) containing code for the milestone
+- [project proposal pdf](proposal/proposal.pdf)
 
